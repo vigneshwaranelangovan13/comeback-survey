@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #C4B5FD 50%, #A78BFA 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-light {
+  background: linear-gradient(135deg, #FFFFFF 0%, #C4B5FD 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta-gradient {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 60%, #9333EA 100%);
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cta-gradient:hover {
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5), inset 0 1px 0 rgba(255,255,255,0.25);
+  transform: translateY(-1px);
+}
+
+.cta-gradient:active {
+  transform: translateY(0);
+}
+
+.cta-gradient-large {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 60%, #9333EA 100%);
+  box-shadow: 0 8px 32px rgba(79, 70, 229, 0.45), inset 0 1px 0 rgba(255,255,255,0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.cta-gradient-large:hover {
+  box-shadow: 0 10px 40px rgba(79, 70, 229, 0.55), inset 0 1px 0 rgba(255,255,255,0.3);
+  transform: translateY(-1px);
+}
+
+.glow-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.option-button {
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.1s ease;
+}
+
+.option-button:hover {
+  border-color: #7C3AED;
+  background-color: #FCFCFB;
+}
+
+.option-button:active {
+  transform: scale(0.99);
+}
+
+.option-button-dark {
+  transition: all 0.15s ease;
+}
+
+.option-button-dark:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(124, 58, 237, 0.5);
+}
