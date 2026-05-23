@@ -4,6 +4,15 @@ import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import QuestionScreen from '@/components/QuestionScreen'
 import RevealScreen from '@/components/RevealScreen'
+import DemoIntroScreen from '@/components/DemoIntroScreen'
+import BlockPanicScreen from '@/components/BlockPanicScreen'
+import BreathingScreen from '@/components/BreathingScreen'
+import PushUpInstructionsScreen from '@/components/PushUpInstructionsScreen'
+import PushUpCameraScreen from '@/components/PushUpCameraScreen'
+import DemoOutroScreen from '@/components/DemoOutroScreen'
+import TrackerTeaserScreen from '@/components/TrackerTeaserScreen'
+import BrainRecoveryScreen from '@/components/BrainRecoveryScreen'
+import CommunityMilestoneScreen from '@/components/CommunityMilestoneScreen'
 import PayScreen from '@/components/PayScreen'
 import WaitlistScreen from '@/components/WaitlistScreen'
 import ThankYouScreen from '@/components/ThankYouScreen'
@@ -27,6 +36,7 @@ type SurveyAnswers = Omit<Answers, 'waitlist_email'>
 export default function Home() {
   const [step, setStep] = useState(1)
   const [session, setSession] = useState<SessionData | null>(null)
+  const [demoSite, setDemoSite] = useState('')
   const [answers, setAnswers] = useState<Answers>({
     q1_years: null,
     q2_promises: null,
@@ -140,17 +150,22 @@ export default function Home() {
     goToStep(5, answers)
   }
 
+  const handleDemoIntroContinue = (siteText: string) => {
+    setDemoSite(siteText)
+    goToStep(6, answers)
+  }
+
   const handleQ4 = (value: string) => {
     const nextAnswers = { ...answers, q4_pay: value }
     setAnswers(nextAnswers)
-    goToStep(6, nextAnswers)
+    goToStep(15, nextAnswers)
   }
 
   const handleWaitlistJoin = (email: string) => {
     const nextAnswers = { ...answers, waitlist_email: email }
     setAnswers(nextAnswers)
     setJoinedWaitlist(true)
-    goToStep(7, nextAnswers, { completed: true, joinedWaitlist: true })
+    goToStep(16, nextAnswers, { completed: true, joinedWaitlist: true })
     if (session) {
       void joinWaitlist(email, session.sessionId)
     }
@@ -163,7 +178,7 @@ export default function Home() {
 
   const handleWaitlistSkip = () => {
     setJoinedWaitlist(false)
-    goToStep(7, answers, { completed: true })
+    goToStep(16, answers, { completed: true })
     console.log('[Come Back] Submission complete, skipped waitlist:', {
       session,
       answers,
@@ -268,10 +283,50 @@ export default function Home() {
         )}
 
         {step === 5 && (
-          <PayScreen key="pay" onSelect={handleQ4} />
+          <DemoIntroScreen key="demo-intro" onContinue={handleDemoIntroContinue} />
         )}
 
         {step === 6 && (
+          <BlockPanicScreen
+            key="block-panic"
+            site={demoSite}
+            onContinue={() => goToStep(7, answers)}
+          />
+        )}
+
+        {step === 7 && (
+          <BreathingScreen key="breathing" onContinue={() => goToStep(8, answers)} />
+        )}
+
+        {step === 8 && (
+          <PushUpInstructionsScreen key="push-up-instructions" onContinue={() => goToStep(9, answers)} />
+        )}
+
+        {step === 9 && (
+          <PushUpCameraScreen key="push-up-camera" onContinue={() => goToStep(10, answers)} />
+        )}
+
+        {step === 10 && (
+          <DemoOutroScreen key="demo-outro" onContinue={() => goToStep(11, answers)} />
+        )}
+
+        {step === 11 && (
+          <TrackerTeaserScreen key="tracker-teaser" onContinue={() => goToStep(12, answers)} />
+        )}
+
+        {step === 12 && (
+          <BrainRecoveryScreen key="brain-recovery" onContinue={() => goToStep(13, answers)} />
+        )}
+
+        {step === 13 && (
+          <CommunityMilestoneScreen key="community-milestone" onContinue={() => goToStep(14, answers)} />
+        )}
+
+        {step === 14 && (
+          <PayScreen key="pay" onSelect={handleQ4} />
+        )}
+
+        {step === 15 && (
           <WaitlistScreen
             key="waitlist"
             onJoin={handleWaitlistJoin}
@@ -279,7 +334,7 @@ export default function Home() {
           />
         )}
 
-        {step === 7 && (
+        {step === 16 && (
           <ThankYouScreen key="thanks" joinedWaitlist={joinedWaitlist} />
         )}
       </AnimatePresence>
